@@ -1,5 +1,4 @@
-// chatbot.cjs - Pure rule-based chatbot, no API needed
-
+// api/chatbot.mjs
 const responses = {
   greetings: {
     keywords: ["hi", "hello", "hey", "good morning", "good evening", "good afternoon", "sup", "whats up", "howdy"],
@@ -107,7 +106,7 @@ function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function getBotReply(message) {
+export function getBotReply(message) {
   const lower = message.toLowerCase().trim();
 
   for (const category of Object.values(responses)) {
@@ -121,5 +120,3 @@ function getBotReply(message) {
 
   return getRandom(fallbackReplies);
 }
-
-module.exports = { getBotReply };

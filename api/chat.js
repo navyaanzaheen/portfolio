@@ -1,7 +1,7 @@
 // api/chat.js
-const { getBotReply } = require("./chatbot.cjs");
+import { getBotReply } from "./chatbot.mjs";
 
-module.exports = (req, res) => {
+export default function handler(req, res) {
   // Only allow POST
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -23,4 +23,4 @@ module.exports = (req, res) => {
     console.error("Chatbot error:", error.message);
     return res.status(500).json({ error: "Could not get a response. Try again." });
   }
-};
+}
