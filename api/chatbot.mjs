@@ -20,10 +20,32 @@ const responses = {
   projects: {
     keywords: ["project", "projects", "work", "built", "made", "portfolio", "app", "apps", "website", "websites", "build"],
     replies: [
-      "Navyaan has built:\n\n• 🛒 E-commerce platforms (full-stack)\n• 📅 Online booking systems\n• 💼 Responsive portfolio websites\n\nWant to know more about any specific project?",
+      "Navyaan has built:\n\n• 🛒 E-commerce platforms (full-stack)\n• 📅 hotel booking systems\n• 💼 Responsive portfolio websites\n\nWant to know more about any specific project?",
       "Navyaan's projects include e-commerce platforms, booking systems, and portfolio websites — all built with the MERN stack!",
     ],
   },
+
+  commerce: {
+  keywords: ["commerce", "e-commerce", "ecommerce", "shopping", "cart", "checkout", "products", "store"],
+  replies: [
+    "🛒 **E-Commerce Platform** - Full Stack Project\n\n**Features:**\n• Browse & view products\n• Add items to shopping cart\n• Checkout with payment\n• Order management\n• Responsive design\n\n**Tech Stack:**\n• Frontend: React.js\n• Backend: Node.js + Express.js\n• Database: MongoDB\n• Deployment: Firebase\n\n**Live Demo:** Deployed on Firebase\n\nWant more details about the features or tech?",
+  ],
+},
+
+Hotel_booking: {
+  keywords: ["booking", "hotel booking"],
+  replies: [
+    "📅 **Hotel Booking System**\n\n**Features:**\n• View available rooms\n• Calendar integration\n• User dashboard\n\n**Tech Stack:**\n• Frontend: React.js\n• Backend: Node.js + Express.js\n• Database: Firebase\n\n**Deployment:**\n• Firebase Hosting",
+  ],
+},
+
+
+Portfolio_site: {
+  keywords: ["portfolio", "portfolio site", "your work", "projects"],
+  replies: [
+    "🌐 **Portfolio Website**\n\n**Features:**\n• Project showcase\n• About me section\n• Contact form\n• Responsive design\n\n**Tech Stack:**\n• Frontend: React.js\n• Styling: Tailwind CSS\n• Animations: Framer Motion\n Chat option also there \n**Deployment:**\n• Vercel",
+  ],
+},
 
   experience: {
     keywords: ["experience", "background", "years", "worked", "history", "career", "professional"],
