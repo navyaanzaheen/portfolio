@@ -15,53 +15,9 @@ export default function AIChatbot() {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Draggable state for mobile
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const chatWindowRef = useRef(null);
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  // Handle drag start
-  const handleDragStart = (e) => {
-    if (window.innerWidth < 768) {
-      setIsDragging(true);
-      setDragOffset({
-        x: e.clientX - position.x,
-        y: e.clientY - position.y,
-      });
-    }
-  };
-
-  // Handle drag move
-  const handleDragMove = (e) => {
-    if (isDragging && window.innerWidth < 768) {
-      setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y,
-      });
-    }
-  };
-
-  // Handle drag end
-  const handleDragEnd = () => {
-    setIsDragging(false);
-  };
-
-  // Setup drag event listeners
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener("mousemove", handleDragMove);
-      document.addEventListener("mouseup", handleDragEnd);
-      return () => {
-        document.removeEventListener("mousemove", handleDragMove);
-        document.removeEventListener("mouseup", handleDragEnd);
-      };
-    }
-  }, [isDragging, dragOffset]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -130,25 +86,11 @@ export default function AIChatbot() {
 
       {/* Chat Window */}
       {open && (
-        <div
-          ref={chatWindowRef}
-          className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 w-full md:w-80 h-full md:h-[420px] bg-black border border-gray-700 rounded-none md:rounded-xl shadow-2xl flex flex-col z-40"
-          style={
-            window.innerWidth < 768
-              ? {
-                  transform: `translate(${position.x}px, ${position.y}px)`,
-                  cursor: isDragging ? "grabbing" : "auto",
-                }
-              : {}
-          }
-        >
+        <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 w-full md:w-80 h-full md:h-[420px] bg-black border border-gray-700 rounded-none md:rounded-xl shadow-2xl flex flex-col z-40">
 
-          {/* Header - Draggable on Mobile */}
-          <div
-            onMouseDown={handleDragStart}
-            className="flex items-center justify-between p-3 md:p-4 border-b border-gray-700 bg-black md:cursor-default cursor-grab active:cursor-grabbing select-none"
-          >
-            <h2 className="font-semibold text-cyan-400 text-sm md:text-base flex-1 pointer-events-none">
+          {/* Header */}
+          <div className="flex items-center justify-between p-3 md:p-4 border-b border-gray-700 bg-black">
+            <h2 className="font-semibold text-cyan-400 text-sm md:text-base flex-1">
               AI Assistant
             </h2>
             <button
@@ -185,14 +127,8 @@ export default function AIChatbot() {
                 <div className="bg-gray-800 text-white px-3 py-2 rounded-lg rounded-bl-none">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div
-                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                      style={{ animationDelay: "0.1s" }}
-                    ></div>
-                    <div
-                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                      style={{ animationDelay: "0.2s" }}
-                    ></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
                   </div>
                 </div>
               </div>
