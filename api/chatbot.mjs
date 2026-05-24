@@ -21,7 +21,7 @@ const responses = {
     keywords: ["project", "projects", "work", "built", "made", "portfolio", "app", "apps", "website", "websites", "build"],
     replies: [
       "Navyaan has built:\n\n• 🛒 E-commerce platforms (full-stack)\n• 📅 hotel booking systems\n• 💼 Responsive portfolio websites\n\nWant to know more about any specific project?",
-      "Navyaan's projects include e-commerce platforms, booking systems, and portfolio websites — all built with the MERN stack!",
+      "Navyaan's projects include e-commerce platforms, Hotel booking systems, and portfolio websites — all built with the MERN stack! Do you want specific about any project please tell i can give you all info about the above project",
     ],
   },
 
