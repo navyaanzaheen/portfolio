@@ -25,8 +25,8 @@ export default function AIChatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Handle drag start
-  const handleDragStart = (e) => {
+  // Handle drag start (MOUSE)
+  const handleMouseDragStart = (e) => {
     if (window.innerWidth < 768) {
       setIsDragging(true);
       setDragOffset({
@@ -36,12 +36,35 @@ export default function AIChatbot() {
     }
   };
 
-  // Handle drag move
-  const handleDragMove = (e) => {
+  // Handle drag start (TOUCH)
+  const handleTouchDragStart = (e) => {
+    if (window.innerWidth < 768) {
+      setIsDragging(true);
+      const touch = e.touches[0];
+      setDragOffset({
+        x: touch.clientX - position.x,
+        y: touch.clientY - position.y,
+      });
+    }
+  };
+
+  // Handle drag move (MOUSE)
+  const handleMouseDragMove = (e) => {
     if (isDragging && window.innerWidth < 768) {
       setPosition({
         x: e.clientX - dragOffset.x,
         y: e.clientY - dragOffset.y,
+      });
+    }
+  };
+
+  // Handle drag move (TOUCH)
+  const handleTouchDragMove = (e) => {
+    if (isDragging && window.innerWidth < 768) {
+      const touch = e.touches[0];
+      setPosition({
+        x: touch.clientX - dragOffset.x,
+        y: touch.clientY - dragOffset.y,
       });
     }
   };
@@ -51,14 +74,26 @@ export default function AIChatbot() {
     setIsDragging(false);
   };
 
-  // Setup drag event listeners
+  // Setup drag event listeners (MOUSE)
   useEffect(() => {
     if (isDragging) {
-      document.addEventListener("mousemove", handleDragMove);
+      document.addEventListener("mousemove", handleMouseDragMove);
       document.addEventListener("mouseup", handleDragEnd);
       return () => {
-        document.removeEventListener("mousemove", handleDragMove);
+        document.removeEventListener("mousemove", handleMouseDragMove);
         document.removeEventListener("mouseup", handleDragEnd);
+      };
+    }
+  }, [isDragging, dragOffset]);
+
+  // Setup drag event listeners (TOUCH)
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener("touchmove", handleTouchDragMove);
+      document.addEventListener("touchend", handleDragEnd);
+      return () => {
+        document.removeEventListener("touchmove", handleTouchDragMove);
+        document.removeEventListener("touchend", handleDragEnd);
       };
     }
   }, [isDragging, dragOffset]);
@@ -105,7 +140,6 @@ export default function AIChatbot() {
         ...prev,
         { role: "bot", text: data.reply || "Sorry, I couldn't respond." },
       ]);
-
     } catch (error) {
       console.error("Chatbot error:", error);
       setMessages((prev) => [
@@ -142,10 +176,10 @@ export default function AIChatbot() {
               : {}
           }
         >
-
-          {/* Header - Draggable on Mobile */}
+          {/* Header - Draggable on Mobile (MOUSE + TOUCH) */}
           <div
-            onMouseDown={handleDragStart}
+            onMouseDown={handleMouseDragStart}
+            onTouchStart={handleTouchDragStart}
             className="flex items-center justify-between p-3 md:p-4 border-b border-gray-700 bg-black md:cursor-default cursor-grab active:cursor-grabbing select-none"
           >
             <h2 className="font-semibold text-cyan-400 text-sm md:text-base flex-1 pointer-events-none">
@@ -222,7 +256,6 @@ export default function AIChatbot() {
               {loading ? "..." : "Send"}
             </button>
           </div>
-
         </div>
       )}
 
