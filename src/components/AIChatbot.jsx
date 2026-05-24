@@ -15,7 +15,12 @@ export default function AIChatbot() {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Draggable state for mobile
+  // Draggable state for BUTTON
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+  const [isButtonDragging, setIsButtonDragging] = useState(false);
+  const [buttonDragOffset, setButtonDragOffset] = useState({ x: 0, y: 0 });
+
+  // Draggable state for CHAT WINDOW
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -24,6 +29,81 @@ export default function AIChatbot() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // ==================== BUTTON DRAGGING ====================
+
+  // Handle button drag start (MOUSE)
+  const handleButtonMouseDragStart = (e) => {
+    e.preventDefault();
+    setIsButtonDragging(true);
+    setButtonDragOffset({
+      x: e.clientX - buttonPosition.x,
+      y: e.clientY - buttonPosition.y,
+    });
+  };
+
+  // Handle button drag start (TOUCH)
+  const handleButtonTouchDragStart = (e) => {
+    e.preventDefault();
+    setIsButtonDragging(true);
+    const touch = e.touches[0];
+    setButtonDragOffset({
+      x: touch.clientX - buttonPosition.x,
+      y: touch.clientY - buttonPosition.y,
+    });
+  };
+
+  // Handle button drag move (MOUSE)
+  const handleButtonMouseDragMove = (e) => {
+    if (isButtonDragging) {
+      setButtonPosition({
+        x: e.clientX - buttonDragOffset.x,
+        y: e.clientY - buttonDragOffset.y,
+      });
+    }
+  };
+
+  // Handle button drag move (TOUCH)
+  const handleButtonTouchDragMove = (e) => {
+    if (isButtonDragging) {
+      const touch = e.touches[0];
+      setButtonPosition({
+        x: touch.clientX - buttonDragOffset.x,
+        y: touch.clientY - buttonDragOffset.y,
+      });
+    }
+  };
+
+  // Handle button drag end
+  const handleButtonDragEnd = () => {
+    setIsButtonDragging(false);
+  };
+
+  // Setup button drag event listeners (MOUSE)
+  useEffect(() => {
+    if (isButtonDragging) {
+      document.addEventListener("mousemove", handleButtonMouseDragMove);
+      document.addEventListener("mouseup", handleButtonDragEnd);
+      return () => {
+        document.removeEventListener("mousemove", handleButtonMouseDragMove);
+        document.removeEventListener("mouseup", handleButtonDragEnd);
+      };
+    }
+  }, [isButtonDragging, buttonDragOffset]);
+
+  // Setup button drag event listeners (TOUCH)
+  useEffect(() => {
+    if (isButtonDragging) {
+      document.addEventListener("touchmove", handleButtonTouchDragMove);
+      document.addEventListener("touchend", handleButtonDragEnd);
+      return () => {
+        document.removeEventListener("touchmove", handleButtonTouchDragMove);
+        document.removeEventListener("touchend", handleButtonDragEnd);
+      };
+    }
+  }, [isButtonDragging, buttonDragOffset]);
+
+  // ==================== CHAT WINDOW DRAGGING ====================
 
   // Handle drag start (MOUSE)
   const handleMouseDragStart = (e) => {
@@ -153,10 +233,19 @@ export default function AIChatbot() {
 
   return (
     <>
-      {/* Floating Robot Button */}
+      {/* Floating Robot Button - DRAGGABLE EVERYWHERE */}
       <button
+        onMouseDown={handleButtonMouseDragStart}
+        onTouchStart={handleButtonTouchDragStart}
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 bg-cyan-500 text-black p-3 md:p-4 rounded-full shadow-lg hover:scale-110 transition z-50"
+        className="fixed bg-cyan-500 text-black p-3 md:p-4 rounded-full shadow-lg hover:scale-110 transition z-50 cursor-grab active:cursor-grabbing"
+        style={{
+          transform: `translate(${buttonPosition.x}px, ${buttonPosition.y}px)`,
+          bottom: "auto",
+          right: "auto",
+          top: "auto",
+          left: "auto",
+        }}
         aria-label="Toggle AI Assistant"
       >
         <FaRobot size={20} />
