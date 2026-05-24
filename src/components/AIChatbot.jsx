@@ -15,7 +15,7 @@ export default function AIChatbot() {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Draggable state for BUTTON
+  // Draggable state for BUTTON (MOBILE ONLY)
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
   const [isButtonDragging, setIsButtonDragging] = useState(false);
   const [buttonDragOffset, setButtonDragOffset] = useState({ x: 0, y: 0 });
@@ -30,16 +30,18 @@ export default function AIChatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // ==================== BUTTON DRAGGING ====================
+  // ==================== BUTTON DRAGGING (MOBILE ONLY) ====================
 
-  // Handle button drag start (MOUSE)
+  // Handle button drag start (MOUSE) - MOBILE ONLY
   const handleButtonMouseDragStart = (e) => {
-    e.preventDefault();
-    setIsButtonDragging(true);
-    setButtonDragOffset({
-      x: e.clientX - buttonPosition.x,
-      y: e.clientY - buttonPosition.y,
-    });
+    if (window.innerWidth < 768) {
+      e.preventDefault();
+      setIsButtonDragging(true);
+      setButtonDragOffset({
+        x: e.clientX - buttonPosition.x,
+        y: e.clientY - buttonPosition.y,
+      });
+    }
   };
 
   // Handle button drag start (TOUCH)
@@ -55,7 +57,7 @@ export default function AIChatbot() {
 
   // Handle button drag move (MOUSE)
   const handleButtonMouseDragMove = (e) => {
-    if (isButtonDragging) {
+    if (isButtonDragging && window.innerWidth < 768) {
       setButtonPosition({
         x: e.clientX - buttonDragOffset.x,
         y: e.clientY - buttonDragOffset.y,
@@ -65,7 +67,7 @@ export default function AIChatbot() {
 
   // Handle button drag move (TOUCH)
   const handleButtonTouchDragMove = (e) => {
-    if (isButtonDragging) {
+    if (isButtonDragging && window.innerWidth < 768) {
       const touch = e.touches[0];
       setButtonPosition({
         x: touch.clientX - buttonDragOffset.x,
@@ -81,7 +83,7 @@ export default function AIChatbot() {
 
   // Setup button drag event listeners (MOUSE)
   useEffect(() => {
-    if (isButtonDragging) {
+    if (isButtonDragging && window.innerWidth < 768) {
       document.addEventListener("mousemove", handleButtonMouseDragMove);
       document.addEventListener("mouseup", handleButtonDragEnd);
       return () => {
@@ -93,7 +95,7 @@ export default function AIChatbot() {
 
   // Setup button drag event listeners (TOUCH)
   useEffect(() => {
-    if (isButtonDragging) {
+    if (isButtonDragging && window.innerWidth < 768) {
       document.addEventListener("touchmove", handleButtonTouchDragMove);
       document.addEventListener("touchend", handleButtonDragEnd);
       return () => {
@@ -156,7 +158,7 @@ export default function AIChatbot() {
 
   // Setup drag event listeners (MOUSE)
   useEffect(() => {
-    if (isDragging) {
+    if (isDragging && window.innerWidth < 768) {
       document.addEventListener("mousemove", handleMouseDragMove);
       document.addEventListener("mouseup", handleDragEnd);
       return () => {
@@ -168,7 +170,7 @@ export default function AIChatbot() {
 
   // Setup drag event listeners (TOUCH)
   useEffect(() => {
-    if (isDragging) {
+    if (isDragging && window.innerWidth < 768) {
       document.addEventListener("touchmove", handleTouchDragMove);
       document.addEventListener("touchend", handleDragEnd);
       return () => {
@@ -233,19 +235,25 @@ export default function AIChatbot() {
 
   return (
     <>
-      {/* Floating Robot Button - DRAGGABLE EVERYWHERE */}
+      {/* Floating Robot Button - VISIBLE ON ALL DEVICES */}
       <button
         onMouseDown={handleButtonMouseDragStart}
         onTouchStart={handleButtonTouchDragStart}
         onClick={() => setOpen(!open)}
         className="fixed bg-cyan-500 text-black p-3 md:p-4 rounded-full shadow-lg hover:scale-110 transition z-50 cursor-grab active:cursor-grabbing"
-        style={{
-          transform: `translate(${buttonPosition.x}px, ${buttonPosition.y}px)`,
-          bottom: "auto",
-          right: "auto",
-          top: "auto",
-          left: "auto",
-        }}
+        style={
+          window.innerWidth < 768
+            ? {
+                transform: `translate(${buttonPosition.x}px, ${buttonPosition.y}px)`,
+                bottom: "24px",
+                right: "24px",
+              }
+            : {
+                bottom: "24px",
+                right: "24px",
+                transform: "none",
+              }
+        }
         aria-label="Toggle AI Assistant"
       >
         <FaRobot size={20} />
