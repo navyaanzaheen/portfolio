@@ -18,8 +18,9 @@ export default function About() {
           className="text-4xl sm:text-5xl font-bold text-cyan-400 mb-10"
         >
           About Me
+          
         </motion.h2>
-
+         
         {/* DESCRIPTION */}
         <motion.p
           initial={{ opacity: 0, y: 40 }}

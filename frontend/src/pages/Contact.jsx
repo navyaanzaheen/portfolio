@@ -90,11 +90,11 @@ export default function Contact() {
           className="bg-[#111418] border border-white/10 p-6 sm:p-8 rounded-2xl shadow-2xl shadow-black/30"
         >
           {/* TITLE */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-white text-center mb-3">
+          <h1 className="text-3xl sm:text-4xl font-bold text-cyan-400 text-center mb-3">
             Contact Me
           </h1>
 
-          <div className="w-12 h-1 bg-cyan-400 rounded-full mx-auto mb-4" />
+          
 
           <p className="text-gray-400 text-sm sm:text-base text-center mb-6">
             Have a project in mind or want to discuss an opportunity? Let's
