@@ -9,7 +9,7 @@ export default function Navbar({ openMenu, scrollToSection, active }) {
         {/* Logo */}
 
         <h1
-          className="text-sm min-[375px]:text-xl md:text-2xl font-bold cursor-pointer flex items-center gap-2 shrink-0"
+className="text-lg min-[375px]:text-xl md:text-2xl font-bold cursor-pointer flex items-center gap-2 shrink-0"
           onClick={() => scrollToSection("home")}
         >
           {/* <span className="text-cyan-400">NP.</span> */}
