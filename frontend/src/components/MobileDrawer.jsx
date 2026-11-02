@@ -14,7 +14,7 @@ export default function MobileDrawer({
 
     setTimeout(() => {
       scrollToSection(section);
-    }, 300);
+    }, 500);
   };
 
   useEffect(() => {
@@ -46,12 +46,11 @@ export default function MobileDrawer({
       )}
 
       {/* Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-[#0D0F12] border-l border-white/10 shadow-2xl z-50 transform transition-transform duration-300 ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Close icon */}
+    <div
+  className={`fixed top-0 right-0 h-dvh w-72 max-w-[85vw] overflow-y-auto overscroll-contain bg-[#0D0F12] border-l border-white/10 shadow-2xl z-50 transform transition-transform duration-300 ${
+    menuOpen ? "translate-x-0" : "translate-x-full"
+  }`}
+>    {/* Close icon */}
         <div className="flex justify-end p-6">
           <FaTimes
             className="text-2xl cursor-pointer text-white hover:text-cyan-400 transition duration-300"
